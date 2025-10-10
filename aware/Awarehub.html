@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Password Portal</title>
+    <link rel="stylesheet" href="aware.css">
+
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a class="nav-logo">Awareness Portal</a>
+            
+            <ul class="nav-links">
+                <li class="home"><a href="/pbl home page.html">Home</a></li>
+                <li><a href="/Awarehub.html">Aware Hub</a></li>
+                <li><a href="/breachcheck.html">BreachCheck</a></li>
+                <li><a href="/virtview.html">VirtuView</a></li>
+                <li><a href="/about.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="portal" id="portalBox">
+        <h1>Quantum Password Portal</h1>
+        <p>Enter a password to check its strength or generate a secure one!</p>
+        
+        <input type="password" id="passwordInput" placeholder="Enter your password here..." />
+        
+        
+        
+        <div class="buttons">
+            <button onclick="generatePassword()">Generate Password</button>
+            <button onclick="checkPassword()">Check Strength</button>
+        </div>
+        
+        <div id="generatedPassword">Your generated password will appear here...</div>
+        
+        <div id="strength"></div>
+    </div>
+
+    <script src="awarehub.js"></script>
+</body>
+</html>
