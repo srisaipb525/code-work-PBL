@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Password Portal</title>
+    <link rel="stylesheet" href="aware4.css">
+
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a class="nav-logo">Awareness Portal</a>
+            
+            <ul class="nav-links">
+                <li class="home"><a href="/pbl home page1.html">Home</a></li>
+                <li><a href="/Awarehub3.html">Aware Hub</a></li>
+                <li><a href="/breachcheck6.html">BreachCheck</a></li>
+                <li><a href="/virtview8.html">VirtuView</a></li>
+                <li><a href="/about11.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="portal" id="portalBox">
+        <h1>Quantum Password Portal</h1>
+        <p>Enter a password to check its strength or generate a secure one!</p>
+        
+        <input type="password" id="passwordInput" placeholder="Enter your password here..." />
+        
+        
+        
+        <div class="buttons">
+            <button onclick="generatePassword()">Generate Password</button>
+            <button onclick="checkPassword()">Check Strength</button>
+        </div>
+        
+        <div id="generatedPassword">Your generated password will appear here...</div>
+        
+        <div id="strength"></div>
+
+        <!-- Crack Time -->
+        <div id="crackTime">
+            <h3>Password Crack Time Estimate</h3>
+            <p id="crackNoAI">Without AI: <span>--</span></p>
+            <p id="crackAI">With AI: <span>--</span></p>
+        </div>
+    </div>
+
+    <script src="awarehub5.js"></script>
+</body>
+</html>

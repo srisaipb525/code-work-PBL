@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="about12.css">
+</head>
+<header>
+    <nav>
+        <div class="nav-container">
+            <a class="nav-logo">Awareness Portal</a>
+            
+            <ul class="nav-links">
+                <li class="home"><a href="/pbl home page1.html">Home</a></li>
+                <li><a href="/Awarehub3.html">Aware Hub</a></li>
+                <li><a href="/breachcheck6.html">BreachCheck</a></li>
+                <li><a href="/virtview8.html">VirtuView</a></li>
+                <li><a href="/about11.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<body>
+
+    <div class="header">
+        <h1>About Us</h1>
+    </div>
+
+    <div class="nav-menu">
+        <div class="nav-item active" onclick="showSection('introduction')">Introduction</div>
+        <div class="nav-item" onclick="showSection('coordinator')">Our Coordinator</div>
+        <div class="nav-item" onclick="showSection('team')">Our Team</div>
+        <div class="nav-item" onclick="showSection('contact')">Contact Us</div>
+    </div>
+
+    <div class="content-container">
+        <div id="introduction" class="section active">
+            <h2>Introduction</h2>
+            <p>Welcome to QuantumShield: The Cyber Awareness Portal! Our project aims to spread cybersecurity awareness, improve security habits, and help users protect their passwords effectively. Designed for students, the general public, and cybersecurity learners, QuantumShield makes learning about online safety simple and practical. Developed as a student project, it combines essential tips, interactive tools, and real-world guidance to keep users secure in the digital world.</p>
+            <p>Explore our sections to learn more about our leadership, team, and how you can connect with us.</p>
+        </div>
+
+        <div id="coordinator" class="section">
+            <h2>Our Coordinator</h2>
+            <p>Meet our esteemed coordinator, who oversees all operations and ensures seamless execution of our initiatives.</p>
+            <ul>
+                <li><strong>Name:</strong> <b>Kotresh N </b></li>
+                <li><strong>Experience:</strong> 15+ years in coordination and management</li>
+                <li><strong>Role:</strong> Leads strategic planning and team collaboration</li>
+                <li><strong>Contact:</strong> alex.rivera@example.com</li>
+            </ul>
+            <p>Dr. Rivera is passionate about fostering growth and innovation within our organization.</p>
+        </div>
+
+        <div id="team" class="section">
+            <h2>Our Team</h2>
+            <p>Our team consists of dedicated who bring expertise and enthusiasm to our project.</p>
+            <ul>
+                <li><strong> Mohammed Shohaib A- Developer</strong></li>
+                <li><strong>Sri Sai PB - Designer</strong></li>
+                <li><strong>BibiSakeena - Researcher</strong></li>
+                <li><strong>Keerthi Arani - Presentation Developer</strong></li>
+                <li><strong>Shreyas N Pawar - Reporter</strong></li>
+            </ul>
+            <p>Together, we form a Project Based Learning </p>
+        </div>
+
+        <div id="contact" class="section">
+            <h2>Contact Us</h2>
+            <p>Get in touch with us for inquiries, support, or collaboration opportunities.</p>
+            <ul>
+                <li><strong>Email:</strong> info@premiumsite.com</li>
+                <li><strong>Phone:</strong> +1 (555) 123-4567</li>
+                <li><strong>Address:</strong> 123 Premium Street, Innovation City, IC 12345</li>
+                <li><strong>Social Media:</strong> Follow us on Twitter @PremiumSite | LinkedIn: Premium Site</li>
+            </ul>
+            <p>We respond to all messages within 24 hours. Let's connect!</p>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected section
+            const selectedSection = document.getElementById(sectionId);
+            selectedSection.classList.add('active');
+
+            // Add active class to clicked nav item
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
