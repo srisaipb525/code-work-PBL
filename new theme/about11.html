@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us – QuantumShield</title>
+
+    <link rel="stylesheet" href="about12.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Particle Background -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+</head>
+<body>
+
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="/pbl home page1.html" class="nav-logo">Awareness Portal</a>
+        <ul class="nav-links">
+            <li><a href="/pbl home page1.html">Home</a></li>
+            <li><a href="/Awarehub3.html">Aware Hub</a></li>
+            <li><a href="/breachcheck6.html">BreachCheck</a></li>
+            <li><a href="/virtview8.html">VirtuView</a></li>
+            <li><a href="/about11.html" class="active">About Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Box -->
+    <div class="container">
+        <h1>About QuantumShield</h1>
+        <p class="subtitle">An AI-integrated cybersecurity awareness initiative</p>
+
+        <div class="nav-menu">
+            <div class="nav-item active" onclick="showSection('introduction')">Introduction</div>
+            <div class="nav-item" onclick="showSection('coordinator')">Coordinator</div>
+            <div class="nav-item" onclick="showSection('team')">Team</div>
+            <div class="nav-item" onclick="showSection('contact')">Contact</div>
+        </div>
+
+        <div class="content-container">
+            <div id="introduction" class="section active">
+                <h2>Introduction</h2>
+                <p>Welcome to <strong>QuantumShield</strong> – a futuristic cyber awareness platform crafted using AI and modern web technologies. Our goal is to empower individuals with knowledge and tools to protect their digital identity.</p>
+            </div>
+
+            <div id="coordinator" class="section">
+                <h2>Project Coordinator</h2>
+                <p><strong>Mr. Kotresh N</strong><br>15+ Years of Experience • PBL Project Lead</p>
+            </div>
+
+            <div id="team" class="section">
+                <h2>Meet the Team</h2>
+                <ul>
+                    <li><b>Mohammed Shohaib A</b> – Lead Developer 👨‍💻</li>
+                    <li><b>Sri Sai PB</b> – UI/UX Designer 🎨</li>
+                    <li><b>Bibi Sakeena</b> – Research 📚</li>
+                    <li><b>Keerthi Arani</b> – Presentation 🖥️</li>
+                    <li><b>Shreyas N Pawar</b> – Documentation 📝</li>
+                </ul>
+            </div>
+
+            <div id="contact" class="section">
+                <h2>Contact Us</h2>
+                <p>Email: contact@quantumshield.com<br>Phone: +91 9876543210</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Particle Config -->
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 80 },
+                "color": { "value": "#00d4ff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5 },
+                "size": { "value": 3 },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#00d4ff",
+                    "opacity": 0.3,
+                    "width": 1
+                },
+                "move": { "enable": true, "speed": 2 }
+            }
+        });
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>

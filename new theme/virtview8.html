@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VirtuView – AI Interview Trainer</title>
+
+    <link rel="stylesheet" href="virtview9.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+</head>
+<body>
+
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Navbar -->
+    <nav>
+        <a href="/pbl home page1.html" class="nav-logo">Awareness Portal</a>
+        <ul class="nav-links">
+            <li><a href="/pbl home page1.html">Home</a></li>
+            <li><a href="/Awarehub3.html">Aware Hub</a></li>
+            <li><a href="/breachcheck6.html">BreachCheck</a></li>
+            <li><a href="/virtview8.html" class="active">VirtuView</a></li>
+            <li><a href="/about11.html">About Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Quiz Section -->
+    <div class="container">
+        <h1>Virtual AI Interview Trainer</h1>
+        <p>Practice medium-level cybersecurity MCQ questions to prepare like a pro.</p>
+        <button id="start-btn">Start Interview</button>
+
+        <div id="question-container">
+            <div id="progress">
+                Question <span id="current-q">1</span> of <span id="total-q">0</span>
+            </div>
+            <div id="question"></div>
+
+            <div id="mcq-options" class="mcq-container"></div>
+
+            <button id="next-btn" disabled>Next Question</button>
+        </div>
+
+        <!-- Result Section with Animation -->
+        <div id="completion">
+            <h2>Interview Complete! 🎉</h2>
+            <p id="score-message"></p>
+            <button id="restart-btn">Restart Interview</button>
+        </div>
+    </div>
+
+    <!-- Particle Config -->
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 80 },
+                "color": { "value": "#00d4ff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5 },
+                "size": { "value": 3 },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#00d4ff",
+                    "opacity": 0.3,
+                    "width": 1
+                },
+                "move": { "enable": true, "speed": 2 }
+            }
+        });
+    </script>
+
+    <script src="virtview10.js"></script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+/* ===========================
+   GLOBAL RESET
+=========================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #000;
+    color: #e0f7ff;
+    overflow-x: hidden;
+}
+
+/* ===========================
+   BACKGROUND PARTICLES
+=========================== */
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at top, #010615, #001f3f, #000);
+}
+
+/* ===========================
+   NAVBAR
+=========================== */
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: cyan;
+    text-shadow: 0 0 12px cyan;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #e0f7ff;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: cyan;
+    text-shadow: 0 0 10px cyan;
+}
+
+/* ===========================
+   MAIN CONTAINER
+=========================== */
+.container {
+    max-width: 650px;
+    margin: 140px auto;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1s ease-in-out;
+}
+
+h1 {
+    font-size: 2rem;
+    color: cyan;
+    text-shadow: 0 0 15px cyan;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #b0f0ff;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+/* ===========================
+   BUTTON STYLING
+=========================== */
+button {
+    background: linear-gradient(45deg, #4facfe, #00f2fe);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 10;
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+}
+
+/* ===========================
+   SECTION VISIBILITY
+=========================== */
+#question-container,
+#completion {
+    display: none;
+}
+
+/* Question Display */
+#question {
+    background: rgba(0, 212, 255, 0.15);
+    padding: 15px;
+    border-radius: 12px;
+    margin: 20px 0;
+}
+
+/* ===========================
+   MCQ OPTION DESIGN
+=========================== */
+.mcq-option {
+    background: rgba(255, 255, 255, 0.06);
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mcq-option:hover {
+    background: rgba(0, 212, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.mcq-option input {
+    margin-right: 10px;
+}
+
+/* ===========================
+   RESULT PANEL ANIMATION
+=========================== */
+#completion.show {
+    display: block;
+    transform: scale(1);
+    opacity: 1;
+    animation: glowPulse 1.5s infinite alternate;
+}
+
+@keyframes glowPulse {
+    0% { text-shadow: 0 0 10px #00ffe0; }
+    100% { text-shadow: 0 0 25px #00ffe0; }
+}
+
+#score-message {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #00f2ff;
+    text-shadow: 0 0 15px #00d4ff;
+    margin-top: 10px;
+}
+
+/* ===========================
+   FADE EFFECT FOR TRANSITION
+=========================== */
+.fade-out {
+    animation: fadeOut 0.6s forwards;
+}
+
+#completion.show {
+    display: block;
+    transform: scale(1);
+    opacity: 1;
+    animation: glowPulse 1.5s infinite alternate;
+}
+
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.9); }
+}
+
+/* ===========================
+   FADE-IN CONTAINER
+=========================== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
+@media (max-width: 768px) {
+    nav {
+        padding: 10px 20px;
+    }
+
+    .container {
+        padding: 30px;
+        margin-top: 120px;
+    }
+}
