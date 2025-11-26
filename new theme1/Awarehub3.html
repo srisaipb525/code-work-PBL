@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Password Portal</title>
+  <link rel="stylesheet" href="aware4.css">
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+</head>
+<body>
+
+  <!-- Background -->
+  <div id="particles-js"></div>
+
+  <!-- 🔥 SAME NAVBAR AS HOME PAGE -->
+  <nav>
+    <a href="/pbl home page1.html" class="nav-logo">Awareness Portal</a>
+    <ul class="nav-links">
+      <li><a href="/pbl home page1.html">Home</a></li>
+      <li><a href="/Awarehub3.html" class="active">Aware Hub</a></li>
+      <li><a href="/breach6.html">BreachCheck</a></li>
+      <li><a href="/virtview8.html">VirtuView</a></li>
+      <li><a href="/about11.html">About Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- Portal Section -->
+  <div class="portal pop-up" id="portalBox">
+    <h1>Quantum Password Portal</h1>
+    <p>Enter a password to check its strength or generate a secure one!</p>
+
+    <input type="password" id="passwordInput" placeholder="Enter your password here..." />
+
+    <div class="buttons">
+      <button onclick="generatePassword()">Generate Password</button>
+      <button onclick="checkPassword()">Check Strength</button>
+    </div>
+
+    <div id="generatedPassword">Your generated password will appear here...</div>
+
+    <div id="strength"></div>
+
+    <div id="crackTime">
+      <h3>Password Crack Time Estimate</h3>
+      <p id="crackNoAI">Without AI: <span>--</span></p>
+      <p id="crackAI">With AI: <span>--</span></p>
+    </div>
+  </div>
+
+  <script src="awarehub5.js"></script>
+
+  <!-- Particles -->
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { "value": 70 },
+        "color": { "value": "#00d4ff" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.5 },
+        "size": { "value": 3 },
+        "line_linked": {
+          "enable": true, "distance": 120,
+          "color": "#00d4ff", "opacity": 0.4, "width": 1
+        },
+        "move": { "enable": true, "speed": 2 }
+      }
+    });
+  </script>
+
+</body>
+</html>
