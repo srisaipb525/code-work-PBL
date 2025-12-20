@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>MFA Demo — Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="header">
+    <div class="logo">MFA</div>
+    <div>
+      <h1>Login</h1>
+      <p class="muted">Enter password, then complete the second factor when prompted.</p>
+    </div>
+  </div>
+
+  <nav class="nav" role="navigation" aria-label="Main">
+    <a class="nav-link" href="mfa.html">Demo</a>
+    <a class="nav-link" href="account.html">Account</a>
+    <div class="spacer" aria-hidden="true"></div>
+    <button class="resetBtn" onclick="resetDemo()" title="Reset demo (clears localStorage)">Reset Demo</button>
+  </nav>
+
+  <main class="container">
+    <section class="card" id="loginCard">
+      <h2>Sign in</h2>
+      <div id="loginStatus" class="muted">Log in to see MFA in action.</div>
+
+      <label class="label">Password</label>
+      <input id="loginPassword" class="input" type="password" />
+      <div class="row">
+        <button id="loginBtn">Login</button>
+        <button class="secondary" id="logoutBtn" disabled>Logout</button>
+      </div>
+
+      <div id="mfaPrompt" class="hidden" style="margin-top:12px">
+        <h3>Second Factor Required</h3>
+        <div id="mfaInstructions" class="muted"></div>
+        <label class="label">Enter code</label>
+        <input id="mfaCodeInput" class="input" placeholder="123456 or backup code" />
+        <div class="row">
+          <button id="mfaSubmitBtn">Verify</button>
+          <button class="secondary" id="mfaCancelBtn">Cancel</button>
+        </div>
+        <div id="mfaResult" class="muted" style="margin-top:8px"></div>
+      </div>
+
+      <hr />
+
+      <div id="smsBox" class="hidden">
+        <p class="muted small">When logging in with SMS MFA the demo shows the code below (simulated delivery).</p>
+        <p><strong>Sent SMS code:</strong> <span id="smsSentCode" style="letter-spacing:6px;display:inline-block;min-width:110px;text-align:center;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.02)">— — —</span></p>
+      </div>
+
+      <div id="totpLoginBox" class="hidden" style="margin-top:8px">
+        <p class="muted small">When logging in with Authenticator (TOTP) the demo shows the current code below.</p>
+        <p><strong>Current TOTP:</strong>
+          <span id="totpLoginCode" style="letter-spacing:6px; display:inline-block; min-width:110px; text-align:center; padding:6px 10px; border-radius:8px; background:rgba(255,255,255,0.02)">— — —</span>
+        </p>
+        <div class="small muted"><span id="totpLoginCountdown">--s</span> left</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Tips</h2>
+      <p class="muted small">If you enrolled Authenticator, open `account.html` and use the live code shown there for testing. Backup codes can also be used once.</p>
+    </section>
+  </main>
+
+  <div id="welcomeOverlay" class="hidden welcomeOverlay" role="dialog" aria-modal="true" aria-label="Welcome">
+    <div class="welcomeContent">
+      <h1 class="welcomeText">WELCOME YOU HAVE SUCCESUFULLY LOGINED</h1>
+      <button id="welcomeContinueBtn">Continue</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+// --- Login page wiring ---
+function initLoginPage(){
+  const loginPassword = document.getElementById('loginPassword');
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const loginStatus = document.getElementById('loginStatus');
+  const mfaPrompt = document.getElementById('mfaPrompt');
+  const mfaInstructions = document.getElementById('mfaInstructions');
+  const mfaCodeInput = document.getElementById('mfaCodeInput');
+  const mfaSubmitBtn = document.getElementById('mfaSubmitBtn');
+  const mfaCancelBtn = document.getElementById('mfaCancelBtn');
+  const mfaResult = document.getElementById('mfaResult');
+
+  const smsBox = document.getElementById('smsBox'); const smsSentCodeEl = document.getElementById('smsSentCode');
+
+  // TOTP-on-login UI
+  const totpLoginBox = document.getElementById('totpLoginBox');
+  const totpLoginCodeEl = document.getElementById('totpLoginCode');
+  let totpLoginStop = null;
+
+  function startTotpLoginUpdater(secret){
+    stopTotpLoginUpdater();
+    if(!secret || !totpLoginCodeEl) return;
+    show(totpLoginBox);
+    const countdownEl = document.getElementById('totpLoginCountdown');
+    totpLoginStop = startAlignedTotpUpdater(secret, totpLoginCodeEl, countdownEl);
+  }
+  function stopTotpLoginUpdater(){
+    if(totpLoginStop){ totpLoginStop(); totpLoginStop = null; }
+    if(totpLoginBox) hide(totpLoginBox);
+    if(totpLoginCodeEl) totpLoginCodeEl.textContent = '— — —';
+    const countdownEl = document.getElementById('totpLoginCountdown'); if(countdownEl) countdownEl.textContent = '--s';
+  }
+
+    function showWelcomeFullPage(){
+      const overlay = document.getElementById('welcomeOverlay');
+      if(!overlay) return; show(overlay);
+    }
+    function hideWelcomeFullPage(){
+      const overlay = document.getElementById('welcomeOverlay');
+      if(!overlay) return; hide(overlay);
+    }
+    // Continue button handler — enables normal logged-in UI after dismiss
+    document.addEventListener('click', (e) => {
+      if(e.target && e.target.id === 'welcomeContinueBtn'){
+        hideWelcomeFullPage();
+        loginStatus.innerHTML = '<span class="ok">Logged in</span>';
+        logoutBtn.disabled = false;
+        if(loginPassword) loginPassword.disabled = false;
+        if(loginBtn) loginBtn.disabled = false;
+      }
+    });
+
+    loginBtn?.addEventListener('click', () => {
+      const acc = loadAccount(); if(!acc){ alert('No account — create one first on Account page.'); return; }
+      if(loginPassword.value !== acc.password){ loginStatus.innerHTML = '<span class="err">Password incorrect</span>'; return; }
+    if(acc.mfa && acc.mfa.enabled){
+      show(mfaPrompt); loginStatus.textContent='Password accepted. MFA required.'; mfaInstructions.textContent = `Please supply a code from ${acc.mfa.method === 'totp' ? 'your Authenticator app (TOTP)' : 'an SMS sent to ' + acc.mfa.phone } or a backup code.`;
+
+      // Persist pending state so navigation won't forget we asked for MFA
+      acc.mfa.loginPending = true;
+      saveAccount(acc);
+
+      // Disable password inputs to emphasize MFA step
+      if(loginPassword){ loginPassword.disabled = true; loginPassword.value = ''; }
+      if(loginBtn) loginBtn.disabled = true;
+
+      // For SMS MFA, generate a per-login code and show it (demo only)
+      if(acc.mfa.method === 'sms'){
+        const code = randDigits(6);
+        acc.mfa.sentOnLogin = code;
+        saveAccount(acc);
+        if(smsSentCodeEl) smsSentCodeEl.textContent = code;
+        if(smsBox) show(smsBox);
+      }
+
+      // For TOTP MFA, start the live updater on login screen
+      if(acc.mfa.method === 'totp'){
+        startTotpLoginUpdater(acc.mfa.secret);
+      }
+    } else { /* Logged in without MFA */ showWelcomeFullPage(); }
+  });
+
+  // if user previously accepted password and left the page, restore MFA prompt now
+  const _acc = loadAccount();
+  if(_acc && _acc.mfa && _acc.mfa.loginPending){
+    show(mfaPrompt);
+    loginStatus.textContent = 'Password previously accepted — MFA required.';
+    mfaInstructions.textContent = `Please supply a code from ${_acc.mfa.method === 'totp' ? 'your Authenticator app (TOTP)' : 'an SMS sent to ' + _acc.mfa.phone } or a backup code.`;
+    if(loginPassword){ loginPassword.disabled = true; loginPassword.value = ''; }
+    if(loginBtn) loginBtn.disabled = true;
+    if(_acc.mfa.method === 'sms' && _acc.mfa.sentOnLogin){ if(smsSentCodeEl) smsSentCodeEl.textContent = _acc.mfa.sentOnLogin; if(smsBox) show(smsBox); }
+
+    // If TOTP, start the updater
+    if(_acc.mfa.method === 'totp' && _acc.mfa.secret) startTotpLoginUpdater(_acc.mfa.secret);
+  }
+
+  mfaSubmitBtn?.addEventListener('click', async () => {
+    const acc = loadAccount(); const code = mfaCodeInput.value.trim(); if(!acc) return;
+    // check backup codes first
+    if(acc.backups){
+      const idx = acc.backups.findIndex(b=>b.code===code && !b.used);
+      if(idx>=0){
+        acc.backups[idx].used=true; delete acc.mfa.loginPending; delete acc.mfa.sentOnLogin; saveAccount(acc);
+        stopTotpLoginUpdater(); hide(mfaPrompt);
+        showWelcomeFullPage();
+        return;
+      }
+    }
+    if(acc.mfa.method === 'sms'){
+      if(code === acc.mfa.pendingCode || (acc.mfa.sentOnLogin && code === acc.mfa.sentOnLogin)){
+        // accepted
+        delete acc.mfa.loginPending; delete acc.mfa.sentOnLogin; saveAccount(acc);
+        stopTotpLoginUpdater(); hide(mfaPrompt); showWelcomeFullPage();
+        return;
+      } else {
+        mfaResult.innerHTML = '<span class="err">Invalid SMS code</span>';
+        return;
+      }
+    } else if(acc.mfa.method === 'totp'){
+      const ok = await verifyTotp(acc.mfa.secret, code);
+      if(ok){
+        delete acc.mfa.loginPending; delete acc.mfa.sentOnLogin; saveAccount(acc);
+        stopTotpLoginUpdater(); hide(mfaPrompt); showWelcomeFullPage();
+      } else {
+        mfaResult.innerHTML = '<span class="err">Invalid TOTP code</span>';
+      }
+    } else {
+      mfaResult.innerHTML = '<span class="err">Unknown MFA method</span>';
+    }
+  });
+
+  mfaCancelBtn?.addEventListener('click', ()=> {
+    const acc = loadAccount();
+    if(acc && acc.mfa && acc.mfa.loginPending){
+      delete acc.mfa.loginPending;
+      delete acc.mfa.sentOnLogin;
+      saveAccount(acc);
+    }
+    stopTotpLoginUpdater();
+    hide(mfaPrompt);
+    loginStatus.textContent = 'Login cancelled';
+    if(loginPassword) loginPassword.disabled=false;
+    if(loginBtn) loginBtn.disabled=false;
+  });
+
+  logoutBtn?.addEventListener('click', ()=> { stopTotpLoginUpdater(); hide(mfaPrompt); loginStatus.textContent='Logged out'; logoutBtn.disabled=true; if(loginPassword) loginPassword.disabled=false; if(loginBtn) loginBtn.disabled=false; });
+
+  resetLoginUI();
+}
+  </script>
+</body>
+</html>

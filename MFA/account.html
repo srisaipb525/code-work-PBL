@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>MFA Demo — Account</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="header">
+    <div class="logo">MFA</div>
+    <div>
+      <h1>Account & MFA Enrollment</h1>
+      <p class="muted">Create an account, enroll Authenticator (TOTP) or SMS, and generate backup codes.</p>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation" aria-label="Main">
+    <a class="nav-link" href="mfa.html">Demo</a>
+    <a class="nav-link" href="account.html">Account</a>
+    <div class="spacer" aria-hidden="true"></div>
+    <button class="resetBtn" onclick="resetDemo()" title="Reset demo (clears localStorage)">Reset Demo</button>
+  </nav>
+
+  <main class="container">
+    <section class="card" id="accountCard">
+      <h2>Account <span class="pill" id="accountStatus">No account</span></h2>
+
+      <label style="font-size:large;" class="label">Set a password (create account)</label>
+      <input id="createPassword" class="input" type="password" placeholder="Enter a demo password" />
+      <div class="row">
+        <button id="createAccountBtn">Create Account</button>
+        <button class="secondary" id="resetBtn">Reset Demo</button>
+      </div>
+
+      <hr />
+
+      <h3>Enroll MFA</h3>
+      <p class="muted small">Add a second factor: Authenticator (TOTP) or SMS for the demo.</p>
+
+      <label class="label">Authenticator (TOTP)</label>
+      <div class="row">
+        <button id="enrollTotpBtn">Enroll Authenticator</button>
+        <button class="secondary" id="showTotpSecretBtn" disabled>Show Secret</button>
+      </div>
+
+      <div id="totpBox" class="hidden" style="margin-top:10px">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div style="flex:1">
+           
+           <p hidden <pre id="totpSecret" style="user-select:all">></pre>
+            <p hidden <pre id="otpauthUrl" style="user-select:all">></pre>
+          </div>
+          <div style="width:220px">
+            <div class="totpLarge" id="totpLive">— — — — — —</div>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+              <div class="small muted">Live TOTP (demo)</div>
+              <div class="small muted"><span id="totpCountdown">--s</span> left</div>
+            </div>
+          </div>
+        </div>
+
+        <label class="label" style="margin-top:12px">Enter code to confirm</label>
+        <input id="totpVerifyCode" class="input" placeholder="123456" />
+        <div class="row">
+          <button id="verifyTotpBtn">Verify & Enable</button>
+          <button class="secondary" id="showCurrentTotpBtn">Show current code</button>
+        </div>
+        <div id="totpVerifyResult" class="muted" style="margin-top:10px"></div>
+      </div>
+
+      <hr />
+
+      <label class="label">SMS</label>
+      <input id="smsPhone" class="input" placeholder="+15551234567 (demo only)" />
+      <div class="row">
+        <button id="enrollSmsBtn">Send SMS Code (simulate)</button>
+        <button class="secondary" id="verifySmsBtn" disabled>Verify SMS Code</button>
+      </div>
+      <div id="smsBox" class="hidden" style="margin-top:8px">
+        <p class="small muted">This demo displays the code (simulated delivery).</p>
+        <p><strong>Sent SMS code:</strong> <span id="smsSentCode" style="letter-spacing:6px;display:inline-block;min-width:110px;text-align:center;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.02)">— — —</span></p>
+        <label class="label" style="margin-top:8px">Enter received SMS code</label>
+        <input id="smsCodeInput" class="input" placeholder="123456" />
+        <div id="smsVerifyResult" class="muted" style="margin-top:8px"></div>
+      </div>
+
+      <hr />
+
+      <h3>Backup Codes</h3>
+      <p class="muted small">Generate one-time backup codes (stored in localStorage for demo).</p>
+      <div class="row">
+        <button id="genBackupBtn">Generate Backup Codes</button>
+        <button class="secondary" id="showBackupBtn" disabled>Show Backup Codes</button>
+      </div>
+      <pre id="backupList" class="hidden"></pre>
+
+      <div class="note">Tip: Paste the secret into an authenticator app manually, or use the live code for verification.</div>
+    </section>
+
+    <section class="card">
+      <h2>About</h2>
+      <p class="muted small">This is a local, client-only demo: no backend, SMS is simulated, and data persists in your browser.</p>
+      <p style="margin-top:12px"><a href="mfa.html" class="pill">Try demo</a></p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    // in initAccountPage
+    showCurrentTotpBtn?.addEventListener('click', async () => {
+      const acc = loadAccount();
+      if (!acc || !acc.mfa || !acc.mfa.secret) return;
+      // ensure user can see the code
+      show(totpBox);
+      totpVerifyResult.textContent = 'Current demo code: ' + (await totpFromSecret(acc.mfa.secret));
+    });
+  </script>
+</body>
+</html>

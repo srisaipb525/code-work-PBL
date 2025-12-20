@@ -1,0 +1,62 @@
+/* styles.css — visually polished theme for MFA demo */
+:root{
+  --muted:#9ca3af;
+  --accent:#7c3aed;
+  --accent-2:#06b6d4;
+  --btn: linear-gradient(180deg,#2563eb,#0c4da2);
+  --radius:12px;
+}
+
+/* Base */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+  background:
+    radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.12), transparent 8%),
+    radial-gradient(900px 400px at 90% 80%, rgba(6,182,212,0.06), transparent 8%),
+    linear-gradient(180deg,#071127 0%, #041022 50%);
+  color:#e6eef8;padding:28px;
+}
+
+/* Header & Nav */
+.header{display:flex;gap:16px;align-items:center;max-width:1100px;margin:0 auto 8px;}
+.logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+.header h1{margin:0;font-size:18px}
+.header p{margin:0;color:var(--muted);font-size:13px}
+
+.nav{display:flex;align-items:center;gap:12px;max-width:1100px;margin:6px auto 18px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)}
+.nav .spacer{flex:1}
+.nav-link{color:#dbeafe;text-decoration:none;padding:8px 10px;border-radius:8px;font-weight:700;border:1px solid transparent}
+.nav-link:hover{background:rgba(255,255,255,0.02)}
+.nav-link.active{background:linear-gradient(90deg,rgba(124,58,237,0.16),rgba(6,182,212,0.06));border-color:rgba(255,255,255,0.03);color:#fff}
+.nav .resetBtn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;color:var(--muted);border-radius:8px;cursor:pointer}
+.nav .resetBtn:hover{background:rgba(255,255,255,0.02);color:#fff}
+
+/* Layout & cards */
+.container{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:480px 1fr;gap:20px}
+@media (max-width:920px){.container{grid-template-columns:1fr}}
+
+.card{background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:18px;box-shadow:0 8px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+h2{margin:0 0 8px 0}
+.muted{color:var(--muted);font-size:13px}
+.label{display:block;font-weight:600;margin-top:12px;color:#dbeafe;font-size:13px}
+.input, textarea, select{width:100%;padding:10px 12px;margin-top:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));color:#e6eef8;outline:none}
+.input:focus{box-shadow:0 6px 18px rgba(99,102,241,0.12);transform:translateY(-1px);border-color:rgba(124,58,237,0.7)}
+
+.row{display:flex;gap:10px;margin-top:8px}
+button{padding:10px 12px;border-radius:10px;border:none;cursor:pointer;color:white;font-weight:700;background:var(--btn);box-shadow:0 6px 14px rgba(12,77,162,0.18)}
+button:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(12,77,162,0.2)}
+button.secondary{background:transparent;color:#dbeafe;border:1px solid rgba(255,255,255,0.04);font-weight:700}
+.pill{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;background:rgba(255,255,255,0.03);color:var(--muted)}
+pre{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:8px;overflow:auto;color:#dbeafe;border:1px solid rgba(255,255,255,0.02);margin-top:8px}
+.totpLarge{margin-top:12px;padding:14px;border-radius:10px;background:linear-gradient(90deg, rgba(7,10,30,0.8), rgba(20,24,48,0.6));font-weight:800;font-size:28px;letter-spacing:6px;text-align:center;color:#f8fafc;border:1px solid rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center}
+.hidden{display:none!important}
+.ok{color:#10b981;font-weight:700}
+.err{color:#fb7185;font-weight:700}
+.small{font-size:13px}
+.note{font-size:12px;color:var(--muted);margin-top:12px;background:rgba(255,255,255,0.01);padding:8px;border-radius:8px}
+
+/* Full-page welcome overlay (shown when login + MFA succeed) */
+.welcomeOverlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.92);z-index:9999}
+.welcomeOverlay .welcomeContent{max-width:800px;padding:28px;border-radius:14px;text-align:center;background:linear-gradient(180deg, rgba(124,58,237,0.08), rgba(6,182,212,0.04));border:1px solid rgba(255,255,255,0.04)}
+.welcomeOverlay .welcomeText{font-size:26px;letter-spacing:2px;margin:0 0 12px;color:#fff;font-weight:800}
+.welcomeOverlay button{padding:10px 16px;border-radius:10px;border:none;background:var(--btn);cursor:pointer;font-weight:800}
